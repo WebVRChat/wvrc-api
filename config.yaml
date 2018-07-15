@@ -1,0 +1,8 @@
+database:
+  mongo_user: ""
+  mongo_pass: ""
+  mongo_host: "localhost"
+  mongo_name: "webvrc_test"
+api:
+  api_host: "localhost"
+  api_port: 5050
