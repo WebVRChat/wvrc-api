@@ -153,7 +153,8 @@ func RoomListAction(connection *mgo.Session, writer http.ResponseWriter, request
     payload := make(map[string]map[string]string)
     for _, room := range list {
         if !room.IsPrivate {
-            payload[room.Name] = map[string]string{
+            payload[room.Id.Hex()] = map[string]string{
+                "name": room.Name,
                 "description": room.Description,
                 "invite": room.Token,
             }
