@@ -7,6 +7,7 @@ import (
     "net/http"
     "./controllers"
     "gopkg.in/mgo.v2"
+    "github.com/gorilla/handlers"
     "github.com/gorilla/mux"
 )
 
@@ -95,7 +96,12 @@ func (app *Application) InitializeRouter() {
 // Run application
 func (app *Application) Run() {
     log.Println("starting server ...")
-    log.Fatal(http.ListenAndServe(app.Address, app.Router))
+
+    headersAllowed := handlers.AllowedHeaders([]string{"X-Requested-With"})
+    originsAllowed := handlers.AllowedOrigins([]string{"*"})
+    methodsAllowed := handlers.AllowedMethods([]string{"GET", "POST", "PUT"})
+    
+    log.Fatal(http.ListenAndServe(app.Address, handlers.CORS(originsAllowed, headersAllowed, methodsAllowed)(app.Router)))
 }
 
 // Wrappers
